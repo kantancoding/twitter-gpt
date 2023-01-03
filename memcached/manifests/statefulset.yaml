@@ -1,33 +1,33 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: redis
+  name: memcached
 spec:
   serviceName: "not-applicable"
   selector:
     matchLabels:
-      app: redis
+      app: memcached
   template:
     metadata:
       labels:
-        app: redis
+        app: memcached
     spec:
       containers:
-        - name: redis
-          image: redis:latest
+        - name: memcached
+          image: memcached:latest
           ports:
             - name: http
               protocol: TCP
-              containerPort: 6379
+              containerPort: 11211
           envFrom:
             - configMapRef:
-                name: redis-configmap
+                name: memcached-configmap
             - secretRef:
-                name: redis-secret
+                name: memcached-secret
           volumeMounts:
-            - mountPath: "/var/lib/redis"
-              name: redis-volume
+            - mountPath: "/var/lib/memcached"
+              name: memcached-volume
       volumes:
-        - name: redis-volume
+        - name: memcached-volume
           persistentVolumeClaim:
-            claimName: redis-pvc
+            claimName: memcached-pvc
