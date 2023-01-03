@@ -5,7 +5,7 @@ from flask import Flask, request
 db = mysql.connector.connect(
   host="localhost",
   user="root",
-  password="password",
+  password="admin123",
   database="social_graph"
 )
 
@@ -31,5 +31,5 @@ def get_relationships():
   return {'source_ids': source_ids}, 200
 
 if __name__ == '__main__':
-  app.run()
+  app.run(port=8080)
 

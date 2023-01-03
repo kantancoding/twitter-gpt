@@ -1,7 +1,6 @@
 import pika
-import mysql.connector
 import redis
-import memcache
+from pymemcache.client import base
 import requests
 import json
 
@@ -9,10 +8,10 @@ import json
 r = redis.Redis(host="redis", port=6379, db=0)
 
 # Connect to the Memcached server
-mc = memcache.Client(["memcached:11211"])
+mc = base.Client(("localhost", 11211))
 
 # Set up a connection to the RabbitMQ server
-connection = pika.BlockingConnection(pika.ConnectionParameters("rabbit"))
+connection = pika.BlockingConnection(pika.ConnectionParameters("rabbitmq"))
 channel = connection.channel()
 
 # Set up a connection to the social graph service
@@ -57,7 +56,7 @@ def callback(ch, method, properties, body):
 
 
 # Set up a consumer to consume messages from the queue
-channel.basic_consume(callback, queue="tweet", no_ack=True)
+channel.basic_consume(queue="tweet", on_message_callback=callback)
 
 # Graceful shutdown implementation
 def shutdown():

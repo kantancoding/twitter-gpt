@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: write-api
+  labels:
+    app: write-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: write-api
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 3
+  template:
+    metadata:
+      labels:
+        app: write-api
+    spec:
+      containers:
+        - name: write-api
+          image: write-api
+          envFrom:
+            - configMapRef:
+                name: write-api-configmap
+            - secretRef:
+                name: write-api-secret

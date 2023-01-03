@@ -1,4 +1,4 @@
-import pika
+import pika, json
 import mysql.connector
 from flask import Flask, request
 
@@ -6,7 +6,7 @@ from flask import Flask, request
 db = mysql.connector.connect(
   host="localhost",
   user="root",
-  password="password",
+  password="admin123",
   database="twitter"
 )
 
@@ -14,7 +14,7 @@ db = mysql.connector.connect(
 app = Flask(__name__)
 
 # Connect to the RabbitMQ server
-connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq'))
 channel = connection.channel()
 
 # Declare the queue
@@ -53,5 +53,5 @@ def insert_tweet():
   return 'Tweet added successfully', 201
 
 if __name__ == '__main__':
-  app.run()
+  app.run(port=8080)
 
