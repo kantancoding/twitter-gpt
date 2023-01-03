@@ -1,0 +1,17 @@
+CREATE DATABASE twitter;
+USE twitter;
+
+CREATE TABLE user (
+  id INT NOT NULL AUTO_INCREMENT,
+  username VARCHAR(255) NOT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE tweet (
+  id INT NOT NULL AUTO_INCREMENT,
+  body TEXT NOT NULL,
+  user_id INT NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (user_id) REFERENCES user(id)
+);
+

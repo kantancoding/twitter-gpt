@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis
+spec:
+  serviceName: "not-applicable"
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:latest
+          ports:
+            - name: http
+              protocol: TCP
+              containerPort: 6379
+          envFrom:
+            - configMapRef:
+                name: redis-configmap
+            - secretRef:
+                name: redis-secret
+          volumeMounts:
+            - mountPath: "/var/lib/redis"
+              name: redis-volume
+      volumes:
+        - name: redis-volume
+          persistentVolumeClaim:
+            claimName: redis-pvc

@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: social-graph
+  labels:
+    app: social-graph
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: social-graph
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 3
+  template:
+    metadata:
+      labels:
+        app: social-graph
+    spec:
+      containers:
+        - name: social-graph
+          image: social-graph
+          ports:
+            - containerPort: 5000
