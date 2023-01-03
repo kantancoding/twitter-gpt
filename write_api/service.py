@@ -4,7 +4,7 @@ from flask import Flask, request
 
 # Connect to the MySQL database
 db = mysql.connector.connect(
-  host="localhost",
+  host="host.minikube.internal",
   user="root",
   password="admin123",
   database="twitter"
@@ -53,5 +53,5 @@ def insert_tweet():
   return 'Tweet added successfully', 201
 
 if __name__ == '__main__':
-  app.run(port=8080)
+  app.run(port=8080, host='0.0.0.0')
 

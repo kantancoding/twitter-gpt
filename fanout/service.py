@@ -8,14 +8,14 @@ import json
 r = redis.Redis(host="redis", port=6379, db=0)
 
 # Connect to the Memcached server
-mc = base.Client(("localhost", 11211))
+mc = base.Client(("host.minikube.internal", 11211))
 
 # Set up a connection to the RabbitMQ server
 connection = pika.BlockingConnection(pika.ConnectionParameters("rabbitmq"))
 channel = connection.channel()
 
 # Set up a connection to the social graph service
-SOCIAL_GRAPH_URL = "http://social-graph:5000/relationships"
+SOCIAL_GRAPH_URL = "social-graph:8080/relationships"
 
 
 def callback(ch, method, properties, body):

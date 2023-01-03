@@ -20,6 +20,6 @@ spec:
     spec:
       containers:
         - name: social-graph
-          image: social-graph
+          image: sweasytech/social-graph:latest
           ports:
             - containerPort: 5000

@@ -20,6 +20,6 @@ spec:
     spec:
       containers:
         - name: fanout
-          image: fanout
+          image: sweasytech/fanout:latest
           ports:
             - containerPort: 5000

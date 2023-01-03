@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: write-api
-          image: write-api
+          image: sweasytech/write-api:latest
           envFrom:
             - configMapRef:
                 name: write-api-configmap
