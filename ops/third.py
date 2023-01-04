@@ -5,11 +5,11 @@ import pymemcache
 
 # Connect to MySQL, Redis, and Memcached servers
 mysql_cnx = mysql.connector.connect(
-    user="root", password="Admin123", host="host.minikube.internal"
+    user="root", password="Admin123", host="localhost"
 )
 mysql_cursor = mysql_cnx.cursor()
-redis_cnx = redis.Redis(host="redis", port=6379)
-memcached_cnx = pymemcache.client.base.Client(("memcached", 11211))
+redis_cnx = redis.Redis(host="localhost", port=6379)
+memcached_cnx = pymemcache.client.base.Client(("localhost", 11211))
 
 # Use twitter database
 mysql_cursor.execute("USE twitter")

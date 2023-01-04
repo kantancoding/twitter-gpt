@@ -8,7 +8,7 @@ import json
 r = redis.Redis(host="redis", port=6379, db=0)
 
 # Connect to the Memcached server
-mc = base.Client(("host.minikube.internal", 11211))
+mc = base.Client(("memcached", 11211))
 
 # Set up a connection to the RabbitMQ server
 connection = pika.BlockingConnection(pika.ConnectionParameters("rabbitmq"))

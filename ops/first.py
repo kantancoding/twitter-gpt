@@ -5,7 +5,7 @@ import random
 
 # Connect to the database
 cnx = mysql.connector.connect(
-    user="root", password="Admin123", host="host.minikube.internal", database="twitter"
+    user="root", password="Admin123", host="localhost"
 )
 cursor = cnx.cursor()
 
