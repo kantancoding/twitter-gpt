@@ -1,5 +1,6 @@
 import flask
 import redis
+import json
 import pymemcache
 
 # Connect to Redis and Memcached servers
@@ -16,7 +17,8 @@ def home_timeline():
 
     # Get home timeline from Redis
     key = f"{user_id}:home_timeline"
-    timeline = redis_cnx.lrange(key, 0, -1)
+    string_list = redis_cnx.lrange(key, 0, -1)
+    timeline = [json.loads(s) for s in string_list]
 
     # Get tweet data from Memcached and build response list
     tweets = []
@@ -26,7 +28,9 @@ def home_timeline():
         user_id = tweet["user_id"]
         tweets.append({"tweet_body": tweet_body, "user_id": user_id})
 
-    return flask.jsonify(tweets)
+    response = flask.jsonify(tweets)
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    return response
 
 
 if __name__ == "__main__":

@@ -6,6 +6,7 @@ cnx = mysql.connector.connect(user="root", password="admin123", host="localhost"
 cursor = cnx.cursor()
 
 # Create social_graph database
+cursor.execute("DROP DATABASE IF EXISTS social_graph")
 cursor.execute("CREATE DATABASE social_graph")
 
 # Use social_graph database
@@ -37,8 +38,17 @@ cursor.execute("USE social_graph")
 add_relationship = """
 INSERT INTO relationships (source_id, destination_id) VALUES (%s, %s)
 """
+print(len(users))
 for user in users:
     for other_user in users:
         if user[0] != other_user[0]:
             cursor.execute(add_relationship, (user[0], other_user[0]))
 cnx.commit()
+
+
+get_relationships = """
+SELECT * FROM relationships
+"""
+cursor.execute(get_relationships)
+relationships = cursor.fetchall()
+print(len(relationships))

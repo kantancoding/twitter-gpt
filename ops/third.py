@@ -1,6 +1,7 @@
 # Import necessary libraries
 import mysql.connector
 import redis
+import json
 import pymemcache
 
 # Connect to MySQL, Redis, and Memcached servers
@@ -41,6 +42,6 @@ for user in users:
                     # Insert tweet into Memcached
                     tweet_key = tweet[0]
                     tweet_value = tweet[2]
-                    memcached_cnx.set(tweet_key, tweet_value)
+                    memcached_cnx.set(str(tweet_key), tweet_value)
                     break  # Add only one tweet from each user
-    redis_cnx.rpush(key, timeline)
+    redis_cnx.rpush(key, json.dumps(timeline))

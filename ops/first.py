@@ -4,12 +4,11 @@ import mysql.connector
 import random
 
 # Connect to the database
-cnx = mysql.connector.connect(
-    user="root", password="admin123", host="localhost"
-)
+cnx = mysql.connector.connect(user="root", password="admin123", host="localhost")
 cursor = cnx.cursor()
 
 # Create twitter database
+cursor.execute("DROP DATABASE IF EXISTS twitter")
 cursor.execute("CREATE DATABASE twitter")
 
 # Use twitter database
@@ -36,89 +35,91 @@ cursor.execute(create_tweets_table)
 
 # Insert 100 users
 users = [
-    ("Alice"),
-    ("Bob"),
-    ("Charlie"),
-    ("Dave"),
-    ("Eve"),
-    ("Frank"),
-    ("Grace"),
-    ("Heather"),
-    ("Igor"),
-    ("Jenny"),
-    ("Karen"),
-    ("Larry"),
-    ("Maggie"),
-    ("Nancy"),
-    ("Owen"),
-    ("Patty"),
-    ("Quincy"),
-    ("Randy"),
-    ("Stephanie"),
-    ("Tina"),
-    ("Ursula"),
-    ("Vicky"),
-    ("Wendy"),
-    ("Xavier"),
-    ("Yolanda"),
-    ("Zach"),
-    ("Avery"),
-    ("Brett"),
-    ("Carla"),
-    ("Derek"),
-    ("Emma"),
-    ("Flynn"),
-    ("Greta"),
-    ("Holly"),
-    ("Ira"),
-    ("Jasmine"),
-    ("Katie"),
-    ("Leo"),
-    ("Maddie"),
-    ("Nate"),
-    ("Olivia"),
-    ("Patrick"),
-    ("Quinn"),
-    ("Roxanne"),
-    ("Sam"),
-    ("Tessa"),
-    ("Uma"),
-    ("Victor"),
-    ("Wendy"),
-    ("Xander"),
-    ("Yvette"),
-    ("Zane"),
-    ("Abby"),
-    ("Becca"),
-    ("Chad"),
-    ("Dawn"),
-    ("Eli"),
-    ("Fiona"),
-    ("Gus"),
-    ("Hannah"),
-    ("Ian"),
-    ("Jill"),
-    ("Kara"),
-    ("Liam"),
-    ("Mia"),
-    ("Nina"),
-    ("Oscar"),
-    ("Pam"),
-    ("Quincy"),
-    ("Rory"),
-    ("Sally"),
-    ("Tara"),
-    ("Ursula"),
-    ("Violet"),
-    ("Will"),
-    ("Xena"),
-    ("Yara"),
-    ("Zelda"),
+    ("Alice",),
+    ("Bob",),
+    ("Charlie",),
+    ("Dave",),
+    ("Eve",),
+    ("Frank",),
+    ("Grace",),
+    ("Heather",),
+    ("Igor",),
+    ("Jenny",),
+    ("Karen",),
+    ("Larry",),
+    ("Maggie",),
+    ("Nancy",),
+    ("Owen",),
+    ("Patty",),
+    ("uincy",),
+    ("Randy",),
+    ("Stephanie",),
+    ("Tina",),
+    ("rsula",),
+    ("Vicky",),
+    ("Kendy",),
+    ("Xavier",),
+    ("Yolanda",),
+    ("Zach",),
+    ("Avery",),
+    ("Brett",),
+    ("Carla",),
+    ("Derek",),
+    ("Emma",),
+    ("Flynn",),
+    ("Greta",),
+    ("Holly",),
+    ("Ira",),
+    ("Jasmine",),
+    ("Katie",),
+    ("Leo",),
+    ("Maddie",),
+    ("Nate",),
+    ("Olivia",),
+    ("Patrick",),
+    ("Quinn",),
+    ("Roxanne",),
+    ("Sam",),
+    ("Tessa",),
+    ("Uma",),
+    ("Victor",),
+    ("Wendy",),
+    ("Xander",),
+    ("Yvette",),
+    ("Zane",),
+    ("Abby",),
+    ("Becca",),
+    ("Chad",),
+    ("Dawn",),
+    ("Eli",),
+    ("Fiona",),
+    ("Gus",),
+    ("Hannah",),
+    ("Ian",),
+    ("Jill",),
+    ("Kara",),
+    ("Liam",),
+    ("Mia",),
+    ("Nina",),
+    ("Oscar",),
+    ("Pam",),
+    ("Quincy",),
+    ("Rory",),
+    ("Sally",),
+    ("Tara",),
+    ("Ursula",),
+    ("Violet",),
+    ("Will",),
+    ("Xena",),
+    ("Yara",),
+    ("Zelda",),
 ]
+print(len(users))
 add_user = """
 INSERT INTO users (username) VALUES (%s)
 """
 cursor.executemany(add_user, users)
+cnx.commit()
 
 # Generate tweets for each user
 tweet_bodies = [
@@ -163,13 +164,10 @@ for user in users:
         INSERT INTO tweets (user_id, body)
         VALUES (%s, %s)
         """
-        user_id = cursor.execute(
-            """
-        SELECT id FROM users WHERE username = %s
-        """,
-            (user,),
-        )
+        cursor.execute("SELECT id FROM users WHERE username=%s", (user[0],))
+        user_id = cursor.fetchone()[0]
         cursor.execute(add_tweet, (user_id, tweet_body))
+        cnx.commit()
 
 # Commit the transaction
 cnx.commit()
