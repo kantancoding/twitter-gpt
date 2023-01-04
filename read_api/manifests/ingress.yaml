@@ -19,4 +19,4 @@ spec:
               service:
                 name: read-api
                 port:
-                  number: 8080
+                  number: 5000

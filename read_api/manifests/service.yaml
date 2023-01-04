@@ -7,6 +7,6 @@ spec:
     app: read-api
   type: ClusterIP
   ports:
-    - port: 8080
-      targetPort: 8080
+    - port: 5000
+      targetPort: 5000
       protocol: TCP

@@ -24,14 +24,14 @@ def home_timeline():
     tweets = []
     for tweet in timeline:
         tweet_id = tweet["tweet_id"]
-        tweet_body = memcached_cnx.get(tweet_id)
+        tweet_body = memcached_cnx.get(str(tweet_id)).decode()
         user_id = tweet["user_id"]
         tweets.append({"tweet_body": tweet_body, "user_id": user_id})
 
     response = flask.jsonify(tweets)
-    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers["Access-Control-Allow-Origin"] = "*"
     return response
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=8080)
+    app.run(debug=True, host="0.0.0.0", port=5000)

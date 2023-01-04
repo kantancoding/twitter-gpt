@@ -32,16 +32,17 @@ tweets = mysql_cursor.fetchall()
 # Insert tweets into Redis and Memcached for each user
 for user in users:
     key = f"{user[0]}:home_timeline"
-    timeline = []
+    # timeline = []
     for other_user in users:
         if other_user[0] != user[0]:  # Check if other user is not the current user
             # Find first tweet from other user
             for tweet in tweets:
                 if tweet[1] == other_user[0]:
-                    timeline.append({"tweet_id": tweet[0], "user_id": tweet[1]})
+                    # timeline.append({"tweet_id": tweet[0], "user_id": tweet[1]})
+                    redis_cnx.rpush(key, json.dumps({"tweet_id": tweet[0], "user_id": tweet[1]}))
                     # Insert tweet into Memcached
                     tweet_key = tweet[0]
                     tweet_value = tweet[2]
                     memcached_cnx.set(str(tweet_key), tweet_value)
                     break  # Add only one tweet from each user
-    redis_cnx.rpush(key, json.dumps(timeline))
+    # redis_cnx.rpush(key, json.dumps(timeline))
