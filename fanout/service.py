@@ -32,7 +32,7 @@ def callback(ch, method, properties, body):
 
     # Write the tweet data to Redis and Memcached
     for source_id in source_ids:
-        key = f"{source_id}:tweets"
+        key = f"{source_id}:home_timeline"
 
         # Use optimistic locking to prevent race conditions
         while True:

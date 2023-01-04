@@ -4,7 +4,9 @@ import redis
 import pymemcache
 
 # Connect to MySQL, Redis, and Memcached servers
-mysql_cnx = mysql.connector.connect(user="root", password="Admin123", host="host.minikube.internal")
+mysql_cnx = mysql.connector.connect(
+    user="root", password="Admin123", host="host.minikube.internal"
+)
 mysql_cursor = mysql_cnx.cursor()
 redis_cnx = redis.Redis(host="redis", port=6379)
 memcached_cnx = pymemcache.client.base.Client(("memcached", 11211))
@@ -35,9 +37,9 @@ for user in users:
             # Find first tweet from other user
             for tweet in tweets:
                 if tweet[1] == other_user[0]:
-                    timeline.append({"user_id": tweet[1], "tweet_id": tweet[0]})
+                    timeline.append({"tweet_id": tweet[0], "user_id": tweet[1]})
                     # Insert tweet into Memcached
-                    tweet_key = f"{tweet[0]}"
+                    tweet_key = tweet[0]
                     tweet_value = tweet[2]
                     memcached_cnx.set(tweet_key, tweet_value)
                     break  # Add only one tweet from each user
