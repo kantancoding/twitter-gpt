@@ -30,7 +30,7 @@ later be consumed by a downstream service.
 write me an init script for a mysql database called social_graph
 that includes a table called relationship. The table should have
 the columns id which is the primary key, destination_id, and
-user_id. All column types should be INT. The column destination_id
+source_id. All column types should be INT. The column destination_id
 should be indexed.
 ```
 
