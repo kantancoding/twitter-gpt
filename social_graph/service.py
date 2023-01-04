@@ -22,7 +22,7 @@ def get_relationships():
 
   # Query the relationship table
   cursor = db.cursor()
-  cursor.execute("SELECT source_id FROM relationship WHERE destination_id = %s", (tweeter_id,))
+  cursor.execute("SELECT source_id FROM relationships WHERE destination_id = %s", (tweeter_id,))
   rows = cursor.fetchall()
 
   # Extract the source_ids from the query results
@@ -31,5 +31,5 @@ def get_relationships():
   return {'source_ids': source_ids}, 200
 
 if __name__ == '__main__':
-  app.run(port=8080, host='0.0.0.0')
+  app.run(port=5000, host='0.0.0.0')
 

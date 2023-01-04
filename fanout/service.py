@@ -15,7 +15,7 @@ connection = pika.BlockingConnection(pika.ConnectionParameters("rabbitmq"))
 channel = connection.channel()
 
 # Set up a connection to the social graph service
-SOCIAL_GRAPH_URL = "http://social-graph:8080/relationships"
+SOCIAL_GRAPH_URL = "http://social-graph:5000/relationships"
 
 
 def callback(ch, method, properties, body):
@@ -43,16 +43,19 @@ def callback(ch, method, properties, body):
                     if r.llen(key) == 800:
                         r.lpop(key)
                     # Append the new tweet and user_id to the list
-                    r.rpush(key, {"tweet_id": tweet_id, "user_id": user_id})
+                    r.rpush(key, json.dumps({"tweet_id": tweet_id, "user_id": user_id}))
                 else:
                     # If the key does not exist, create a new list with the tweet and user_id
-                    r.rpush(key, {"tweet_id": tweet_id, "user_id": user_id})
+                    r.rpush(key, json.dumps({"tweet_id": tweet_id, "user_id": user_id}))
                 break
             except redis.WatchError:
                 continue
 
         # Write the tweet body to Memcached
-        mc.set(tweet_id, tweet_body)
+        mc.set(str(tweet_id), tweet_body)
+
+    # Acknowledge the message
+    ch.basic_ack(delivery_tag=method.delivery_tag)
 
 
 # Set up a consumer to consume messages from the queue
