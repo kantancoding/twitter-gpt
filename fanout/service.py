@@ -15,7 +15,7 @@ connection = pika.BlockingConnection(pika.ConnectionParameters("rabbitmq"))
 channel = connection.channel()
 
 # Set up a connection to the social graph service
-SOCIAL_GRAPH_URL = "social-graph:8080/relationships"
+SOCIAL_GRAPH_URL = "http://social-graph:8080/relationships"
 
 
 def callback(ch, method, properties, body):
