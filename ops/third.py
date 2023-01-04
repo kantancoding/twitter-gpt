@@ -5,7 +5,7 @@ import pymemcache
 
 # Connect to MySQL, Redis, and Memcached servers
 mysql_cnx = mysql.connector.connect(
-    user="root", password="Admin123", host="localhost"
+    user="root", password="admin123", host="localhost"
 )
 mysql_cursor = mysql_cnx.cursor()
 redis_cnx = redis.Redis(host="localhost", port=6379)

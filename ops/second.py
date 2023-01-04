@@ -2,7 +2,7 @@
 import mysql.connector
 
 # Connect to MySQL server
-cnx = mysql.connector.connect(user="root", password="Admin123", host="localhost")
+cnx = mysql.connector.connect(user="root", password="admin123", host="localhost")
 cursor = cnx.cursor()
 
 # Create social_graph database
